@@ -214,6 +214,7 @@ class Mergergui(t.Frame, t.Menu):
                 del PDFS2[:]
                 del PDFS[:]
                 # del listaksi[:]
+
                 return 0
             else:
                 messagebox.showinfo("Error", "No files chosen")
@@ -228,6 +229,25 @@ class Mergergui(t.Frame, t.Menu):
             # del listaksi[:]
 
     def avaakuvat(self):
+        
+        
+        def os_walk(self):
+        
+            max_mtime = 0
+
+            for dirname, subdirs, files in os.walk("."):
+                                for fname in files:
+                                    full_path = os.path.join(dirname, fname)
+                                    mtime = os.stat(full_path).st_mtime
+                                    if mtime > max_mtime:
+                                        max_mtime = mtime
+                                        max_dir = dirname
+                                        max_file = fname
+
+            self.tiedosto_param = max_file
+            
+            return self.tiedosto_param
+         
         try:
             global kuvat2
             if not PDFS or PDFS2:
@@ -270,39 +290,18 @@ class Mergergui(t.Frame, t.Menu):
                     if os.path.exists(tiedostonimi):
                         uusi = os.replace(newfile, str(laskuri2) + "_" +
                                           datetime.datetime.now().strftime("%I%M%S%p%B%d%Y") + ".pdf")
-                        max_mtime = 0
-
-                        # This loop was copied from stackoverflow
-                        for dirname, subdirs, files in os.walk("."):
-                            for fname in files:
-                                full_path = os.path.join(dirname, fname)
-                                mtime = os.stat(full_path).st_mtime
-                                if mtime > max_mtime:
-                                    max_mtime = mtime
-                                    max_dir = dirname
-                                    max_file = fname
-
-                        tiedosto = max_file
-
-                        PDFS2.append(tiedosto)
+                       
+                        os_walk(self)
+                        
+                        PDFS2.append(self.tiedosto_param)
 
                     else:
                         uusi = os.rename(newfile, str(laskuri2) + "_" +
                                          datetime.datetime.now().strftime("%I%M%S%p%B%d%Y") + ".pdf")
-                        max_mtime = 0
-
-                        # This loop was copied from stackoverflow
-                        for dirname, subdirs, files in os.walk("."):
-                            for fname in files:
-                                full_path = os.path.join(dirname, fname)
-                                mtime = os.stat(full_path).st_mtime
-                                if mtime > max_mtime:
-                                    max_mtime = mtime
-                                    max_dir = dirname
-                                    max_file = fname
-
-                        tiedosto_2 = max_file
-                        PDFS2.append(tiedosto_2)
+                       
+                        os_walk(self)
+                        
+                        PDFS2.append(self.tiedosto_param)
 
                     laskuri1 = laskuri1 + 1
 
@@ -325,38 +324,20 @@ class Mergergui(t.Frame, t.Menu):
                         PNG_FILE = ((formaatti) + str(laskuri2) + ".pdf")
                         uusi_2 = os.replace(PNG_FILE, str(
                             laskuri2) + "_" + datetime.datetime.now().strftime("%I%M%S%p%B%d%Y") + ".pdf")
-                        max_mtime = 0
 
-                        for dirname, subdirs, files in os.walk("."):
-                            for fname in files:
-                                full_path = os.path.join(dirname, fname)
-                                mtime = os.stat(full_path).st_mtime
-                                if mtime > max_mtime:
-                                    max_mtime = mtime
-                                    max_dir = dirname
-                                    max_file = fname
-
-                        tiedosto_3 = max_file
-                        PDFS2.append(tiedosto_3)
+                        os_walk(self)
+                        
+                        PDFS2.append(self.tiedosto_param)
 
                     else:
 
                         PNG_FILE = ((formaatti) + str(laskuri2) + ".pdf")
                         uusi_2 = os.replace(PNG_FILE, str(
                             laskuri2) + "_" + datetime.datetime.now().strftime("%I%M%S%p%B%d%Y") + ".pdf")
-                        max_mtime = 0
-
-                        for dirname, subdirs, files in os.walk("."):
-                            for fname in files:
-                                full_path = os.path.join(dirname, fname)
-                                mtime = os.stat(full_path).st_mtime
-                                if mtime > max_mtime:
-                                    max_mtime = mtime
-                                    max_dir = dirname
-                                    max_file = fname
-
-                        tiedosto_3 = max_file
-                        PDFS2.append(tiedosto_3)
+                        
+                        os_walk(self)
+                        
+                        PDFS2.append(self.tiedosto_param)
 
                 else:
                     messagebox.showinfo("Warning", "No image format recognized")
@@ -367,10 +348,12 @@ class Mergergui(t.Frame, t.Menu):
             self.mergeri_2()
 
             self.lista.delete(0, 'end')
-        except Exception:
+        except Exception as e:
+            print(e)
             messagebox.showinfo("Error", "Something went wrong! Try Again")
             return 0
-
+        
+ 
     def clear_list(self):
 
         try:

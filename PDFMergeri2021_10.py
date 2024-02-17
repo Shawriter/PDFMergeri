@@ -114,20 +114,7 @@ class Mergergui(t.Frame, t.Menu):
             return 0
 
     def mergeri(self):
-        '''try:
-        self.lista.delete(0, 'end')
-        _a_1 = PDFS
-        _b_2 = PDFS2
-        _c_3 = listaksi
-        listakokoelma = _a_1, _b_2, _c_3
-        if all(listakokoelma):
-        del PDFS[:]
-        del PDFS2[:]
-        del listaksi[:]
-        self.lista.insert(t.END, "----------List empty----------" +
-        "\n" + "PDFMergeri1.0")
-        return 0'''
-
+     
         try:
             if PDFS:
                 merger = PdfFileMerger()
@@ -143,20 +130,18 @@ class Mergergui(t.Frame, t.Menu):
                 messagebox.showinfo(
                     "Info", "All PDF files have been merged successfully, and have been saved!'")
                 self.lista.delete(0, 'end')
-                del PDFS[:]
-                # del listaksi[:]
-                del PDFS2[:]
+                self.clear_list()
                 return 0
             else:
                 messagebox.showinfo("Error", "You must choose files first")
                 return 0
         except Exception as mergeri_error:
+
             messagebox.showinfo("Error", "Wrong filetype or no files chosen!")
             self.lista.delete(0, 'end')
-            del PDFS[:]
-            del PDFS2[:]
+            self.clear_list()
             print(mergeri_error)
-            # del listaksi[:]
+           
             return 0
 
             '''if listaksi:
@@ -177,18 +162,14 @@ class Mergergui(t.Frame, t.Menu):
 
                         messagebox.showinfo(
                             "Info", "All spreadsheet files have been merged successfully, and have been saved!'")
-                        del listaksi[:]
-                        del PDFS[:]
-                        del PDFS2[:]
+                        self.clear_list()
                         self.lista.delete(0, 'end')
                         return 0'''
 
         '''except Exception:
                 messagebox.showinfo("Error", "Wrong filetype or no files chosen!")
                 self.lista.delete(0, 'end')
-                del PDFS[:]
-                del PDFS2[:]
-                del listaksi[:]
+                self.clear_list()
                 return 0'''
 
     def mergeri_2(self):
@@ -211,9 +192,8 @@ class Mergergui(t.Frame, t.Menu):
                     "Info", "All image files converted to PDF files! A merged result has been made")
 
                 self.lista.delete(0, 'end')
-                del PDFS2[:]
-                del PDFS[:]
-                # del listaksi[:]
+                self.clear_list()
+                
 
                 return 0
             else:
@@ -224,8 +204,7 @@ class Mergergui(t.Frame, t.Menu):
             messagebox.showinfo("Error", "Wrong filetype or no files chosen!")
             self.lista.delete(0, 'end')
             print(mergeri_2_error)
-            del PDFS[:]
-            del PDFS2[:]
+            self.clear_list()
             # del listaksi[:]
 
     def avaakuvat(self):
@@ -260,8 +239,7 @@ class Mergergui(t.Frame, t.Menu):
             else:
                 messagebox.showinfo(
                     "You have unmerged PDF files on your list. Clear the list first.")
-                del PDFS[:]
-                del PDFS2[:]
+                self.clear_list()
                 # self.lista.delete(0, 'end')
 
                 return 0
@@ -373,11 +351,13 @@ class Mergergui(t.Frame, t.Menu):
 
             elif PDFS:
                 del PDFS[:]
-                self.lista.insert(t.END, "----------List empty----------" +
+                if self.lista == None:
+                    self.lista.insert(t.END, "----------List empty----------" +
                                   "\n" + "PDFMergeri1.0")
             elif PDFS2:
                 del PDFS2[:]
-                self.lista.insert(t.END, "----------List empty----------" +
+                if self.lista == None:
+                    self.lista.insert(t.END, "----------List empty----------" +
                                   "\n" + "PDFMergeri1.0")
             else:
                 messagebox.showinfo("Info", "List already empty!")
@@ -454,6 +434,7 @@ class Mergergui(t.Frame, t.Menu):
                 except Exception:
                     messagebox.showinfo("Error", "Something went wrong")
                     return 0'''
+    
 
 
 if __name__ == "__main__":
